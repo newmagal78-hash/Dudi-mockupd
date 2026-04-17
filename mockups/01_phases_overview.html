@@ -6,17 +6,17 @@
   <title>Smart Order System — Phases</title>
   <link rel="stylesheet" href="i18n.css">
   <style>
-    body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; }
+    body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding-top: 60px; }
     .content { padding: 2rem; max-width: 640px; margin: 0 auto; }
-    h2 { font-size: 20px; font-weight: 500; margin-block-end: 4px; }
-    .subtitle { font-size: 13px; color: #666; margin-block-end: 24px; }
-    .phase { border-radius: 10px; padding: 16px 20px; margin-block-end: 12px; cursor: pointer; transition: opacity .15s; position: relative; }
+    h2 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+    .subtitle { font-size: 13px; color: #666; margin-bottom: 24px; }
+    .phase { border-radius: 10px; padding: 16px 20px; margin-bottom: 12px; cursor: pointer; transition: opacity .15s; position: relative; }
     .phase:hover { opacity: .85; }
-    .phase-title { font-size: 15px; font-weight: 500; margin-block-end: 4px; }
+    .phase-title { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
     .phase-sub   { font-size: 12px; opacity: .75; }
-    .phase-tag   { position: absolute; top: 12px; left: 20px; font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.8; }
+    .phase-tag   { position: absolute; top: 12px; left: 20px; font-size: 10px; font-weight: bold; text-transform: uppercase; opacity: 0.8; }
     [dir="ltr"] .phase-tag { left: auto; right: 20px; }
-    .arrow { text-align: center; color: #aaa; font-size: 18px; margin-block: 4px; }
+    .arrow { text-align: center; color: #aaa; font-size: 18px; margin: 4px 0; }
     .p1 { background: #e1f5ee; color: #065f46; }
     .p2 { background: #fef3c7; color: #92400e; }
     .p3 { background: #dbeafe; color: #1e40af; }
@@ -35,33 +35,25 @@
     <div class="phase-title" data-i18n="phase1_title">שלב 1 — הקמה וניהול קטלוג</div>
     <div class="phase-sub" data-i18n="phase1_sub">הגדרת מוצרים · תמחור · קטלוג דיגיטלי</div>
   </div>
-
   <div class="arrow">↓</div>
-
   <div class="phase p2" onclick="window.location.href='02_restaurant_screens.html'">
     <span class="phase-tag" data-i18n="tag_rest">לקוח</span>
     <div class="phase-title" data-i18n="phase2_title">שלב 2 — אזור מסעדן ואישור הזמנה</div>
     <div class="phase-sub" data-i18n="phase2_sub">הודעת וואטסאפ · אישור/עדכון הזמנה</div>
   </div>
-
   <div class="arrow">↓</div>
-
   <div class="phase p3" onclick="window.location.href='04_picker_driver_dashboard.html'">
     <span class="phase-tag" data-i18n="tag_ops">תפעולי</span>
     <div class="phase-title" data-i18n="phase3_title">שלב 3 — ניהול מלקטים ונהגים</div>
     <div class="phase-sub" data-i18n="phase3_sub">הרשמה ותפקידים · שיוך מסעדות</div>
   </div>
-
   <div class="arrow">↓</div>
-
   <div class="phase p4" onclick="window.location.href='02_restaurant_screens.html'">
     <span class="phase-tag" data-i18n="tag_transparent">שקיפות</span>
     <div class="phase-title" data-i18n="phase4_title">שלב 4 — מעקב סטטוס בזמן אמת</div>
     <div class="phase-sub" data-i18n="phase4_sub">התקבלה → ליקוט → בנסיעה → סופק</div>
   </div>
-
   <div class="arrow">↓</div>
-
   <div class="phase p5" onclick="window.location.href='05_manager_dashboard.html'">
     <span class="phase-tag" data-i18n="tag_mgmt">ניהולי</span>
     <div class="phase-title" data-i18n="phase5_title">שלב 5 — דשבורד מנהל וחשבוניות</div>
