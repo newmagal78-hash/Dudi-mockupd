@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מסך מסעדן — אישור הזמנה + ההזמנות שלי</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; background: #f0f0f0; padding: 1.5rem; direction: rtl; }
+  h2 { font-size: 14px; color: #666; font-weight: 400; margin-bottom: 16px; text-align: center; }
+  .phones { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+  .phone { width: 210px; background: #fff; border: 1px solid #ddd; border-radius: 20px; overflow: hidden; flex-shrink: 0; }
+  .pbar { background: #f7f7f7; padding: 10px 14px 8px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+  .app { font-size: 13px; font-weight: 500; }
+  .sub { font-size: 11px; color: #999; }
+  .pbody { padding: 12px; }
+  .slabel { font-size: 11px; color: #bbb; text-align: center; margin-bottom: 8px; }
+  .bubble { border-radius: 12px 12px 4px 12px; padding: 8px 10px; margin-bottom: 7px; background: #dbeafe; }
+  .bubble.in { background: #f3f4f6; border-radius: 12px 12px 12px 4px; }
+  .bt { font-size: 12px; color: #111; line-height: 1.5; }
+  .btime { font-size: 10px; color: #999; margin-top: 3px; }
+  .ocard { border: 1px solid #eee; border-radius: 10px; padding: 10px; margin-bottom: 8px; background: #fafafa; }
+  .orow { display: flex; justify-content: space-between; margin-bottom: 5px; }
+  .oname { font-size: 12px; }
+  .oqty { font-size: 12px; font-weight: 500; color: #2563eb; }
+  .div { height: 1px; background: #eee; margin: 7px 0; }
+  .btn-g { display: block; width: 100%; background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; border-radius: 8px; padding: 8px; font-size: 12px; font-weight: 500; text-align: center; margin-bottom: 6px; cursor: pointer; }
+  .btn-o { display: block; width: 100%; background: transparent; color: #666; border: 1px solid #ddd; border-radius: 8px; padding: 8px; font-size: 12px; text-align: center; margin-bottom: 6px; cursor: pointer; }
+  .badge { background: #d1fae5; color: #065f46; border-radius: 8px; padding: 6px 10px; font-size: 11px; text-align: center; margin-bottom: 8px; display: none; }
+  .edit-area { background: #f3f4f6; border: 1px solid #ddd; border-radius: 8px; padding: 7px; font-size: 12px; width: 100%; resize: none; margin-bottom: 6px; font-family: inherit; direction: rtl; }
+  .sec { font-size: 11px; font-weight: 500; color: #999; margin-bottom: 6px; }
+  .filter-row { display: flex; gap: 5px; margin-bottom: 10px; flex-wrap: wrap; }
+  .fchip { font-size: 11px; padding: 3px 9px; border-radius: 20px; border: 1px solid #ddd; cursor: pointer; color: #666; background: transparent; }
+  .fchip.active { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; font-weight: 500; }
+  .pill { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+  .pw { background: #fef3c7; color: #92400e; }
+  .pp { background: #dbeafe; color: #1e40af; }
+  .pd { background: #d1fae5; color: #065f46; }
+  .hrow { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid #eee; }
+  .hname { font-size: 12px; font-weight: 500; }
+  .hdate { font-size: 11px; color: #999; }
+</style>
+</head>
+<body>
+<h2>מסכי מסעדן — לחץ על הכפתורים לסימולציה</h2>
+<div class="phones">
+  <div class="phone">
+    <div class="pbar"><span class="app">אישור הזמנה</span><span class="sub">09:14</span></div>
+    <div class="pbody">
+      <div class="slabel">וואטסאפ אוטומטי</div>
+      <div class="bubble in"><div class="bt">שלום! קיבלנו את הזמנתך ל-17.4. להלן הפירוט:</div><div class="btime">09:14</div></div>
+      <div class="ocard">
+        <div class="sec">ההזמנה שלך</div>
+        <div class="orow"><span class="oname">עגבניות שרי</span><span class="oqty">× 4</span></div>
+        <div class="orow"><span class="oname">חסה איסברג</span><span class="oqty">× 6</span></div>
+        <div class="orow"><span class="oname">גבינה צהובה</span><span class="oqty">× 2</span></div>
+        <div class="orow"><span class="oname">שמנת חמוצה</span><span class="oqty">× 3</span></div>
+        <div class="div"></div>
+        <div class="orow"><span style="font-size:11px;color:#999">איסוף מבוקש</span><span style="font-size:11px">מחר 08:00</span></div>
+      </div>
+      <button class="btn-g" onclick="document.getElementById('c1').style.display='block';this.style.display='none'">אשר הזמנה</button>
+      <div id="c1" class="badge">אושר! תקבל עדכונים בוואטסאפ</div>
+      <button class="btn-o" onclick="var p=document.getElementById('ep');p.style.display=p.style.display==='none'?'block':'none'">ערוך הזמנה</button>
+      <div id="ep" style="display:none">
+        <textarea class="edit-area" rows="2" placeholder="למשל: הסר גבינה, הוסף 2 לימונים..."></textarea>
+        <button class="btn-g" style="font-size:11px;padding:6px" onclick="document.getElementById('ep').style.display='none';document.getElementById('ec').style.display='block'">שלח עדכון</button>
+        <div style="text-align:center;font-size:11px;color:#999;margin-bottom:4px">— או —</div>
+        <button class="btn-o" style="font-size:11px;padding:6px">הקלטה קולית</button>
+      </div>
+      <div id="ec" class="badge">השינוי התקבל! ההזמנה עודכנה</div>
+    </div>
+  </div>
+  <div class="phone">
+    <div class="pbar"><span class="app">ההזמנות שלי</span><span class="sub">מסעדת הגינה</span></div>
+    <div class="pbody">
+      <div class="slabel">אזור אישי</div>
+      <div class="filter-row">
+        <span class="fchip active" onclick="filterM(this,'apr')">אפריל</span>
+        <span class="fchip" onclick="filterM(this,'mar')">מרץ</span>
+        <span class="fchip" onclick="filterM(this,'feb')">פברואר</span>
+        <span class="fchip" onclick="filterM(this,'all')">הכל</span>
+      </div>
+      <div id="olist">
+        <div class="hrow"><div><div class="hname">17 באפריל</div><div class="hdate">7 פריטים</div></div><span class="pill pw">ממתין לליקוט</span></div>
+        <div class="hrow"><div><div class="hname">15 באפריל</div><div class="hdate">12 פריטים</div></div><span class="pill pp">בליקוט</span></div>
+        <div class="hrow"><div><div class="hname">13 באפריל</div><div class="hdate">9 פריטים</div></div><span class="pill pd">סופק</span></div>
+        <div class="hrow"><div><div class="hname">10 באפריל</div><div class="hdate">5 פריטים</div></div><span class="pill pd">סופק</span></div>
+      </div>
+      <div class="div"></div>
+      <div style="display:flex;gap:5px;margin-top:4px">
+        <button class="btn-o" style="margin:0;flex:1;font-size:11px">חשבוניות</button>
+        <button class="btn-o" style="margin:0;flex:1;font-size:11px">הזמנה חדשה</button>
+      </div>
+    </div>
+  </div>
+  <div class="phone">
+    <div class="pbar"><span class="app">מעקב הזמנה</span><span class="sub">17.4 · פעיל</span></div>
+    <div class="pbody">
+      <div class="slabel">סטטוס בזמן אמת</div>
+      <div style="margin-bottom:12px">
+        <div style="display:flex;align-items:flex-start;gap:8px;padding-bottom:10px">
+          <div style="display:flex;flex-direction:column;align-items:center"><div style="width:14px;height:14px;border-radius:50%;background:#16a34a;flex-shrink:0"></div><div style="width:1.5px;height:26px;background:#ddd"></div></div>
+          <div><div style="font-size:12px;font-weight:500">התקבלה ואושרה</div><div style="font-size:10px;color:#999">09:14</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;padding-bottom:10px">
+          <div style="display:flex;flex-direction:column;align-items:center"><div style="width:14px;height:14px;border-radius:50%;background:#2563eb;flex-shrink:0"></div><div style="width:1.5px;height:26px;background:#ddd"></div></div>
+          <div><div style="font-size:12px;font-weight:500">בליקוט</div><div style="font-size:10px;color:#999">עמית לוקח כרגע</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;padding-bottom:10px">
+          <div style="display:flex;flex-direction:column;align-items:center"><div id="dot3" style="width:14px;height:14px;border-radius:50%;background:#ddd;flex-shrink:0"></div><div style="width:1.5px;height:26px;background:#ddd"></div></div>
+          <div id="s3"><div style="font-size:12px;color:#999">בדרך אליך</div><div style="font-size:10px;color:#bbb">ממתין</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px">
+          <div style="width:14px;height:14px;border-radius:50%;background:#ddd;flex-shrink:0"></div>
+          <div><div style="font-size:12px;color:#999">סופק</div><div style="font-size:10px;color:#bbb">ממתין</div></div>
+        </div>
+      </div>
+      <div id="drv" style="display:none;background:#eff6ff;border-radius:8px;padding:8px 10px;margin-bottom:8px;border:1px solid #bfdbfe">
+        <div style="font-size:12px;font-weight:500">יוסי כהן — נהג</div>
+        <div style="font-size:11px;color:#2563eb;margin-top:2px">054-1234567</div>
+        <div style="font-size:10px;color:#666;margin-top:4px">צפי הגעה: 35 דק'</div>
+      </div>
+      <button class="btn-o" style="font-size:11px" onclick="document.getElementById('dot3').style.background='#2563eb';document.getElementById('s3').innerHTML='<div style=\'font-size:12px;font-weight:500\'>בדרך אליך</div><div style=\'font-size:10px;color:#999\'>יצא לאיסוף</div>';document.getElementById('drv').style.display='block';this.style.display='none'">סטטוס: בדרך אליך</button>
+    </div>
+  </div>
+</div>
+<script>
+function filterM(el, m) {
+  document.querySelectorAll('.fchip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  const data = {
+    apr: [['17 באפריל','7 פריטים','pw','ממתין לליקוט'],['15 באפריל','12 פריטים','pp','בליקוט'],['13 באפריל','9 פריטים','pd','סופק'],['10 באפריל','5 פריטים','pd','סופק']],
+    mar: [['28 במרץ','11 פריטים','pd','סופק'],['22 במרץ','8 פריטים','pd','סופק'],['17 במרץ','14 פריטים','pd','סופק']],
+    feb: [['25 בפברואר','9 פריטים','pd','סופק'],['18 בפברואר','7 פריטים','pd','סופק']],
+    all: [['17 באפריל','7 פריטים','pw','ממתין לליקוט'],['15 באפריל','12 פריטים','pp','בליקוט'],['28 במרץ','11 פריטים','pd','סופק'],['22 במרץ','8 פריטים','pd','סופק'],['25 בפברואר','9 פריטים','pd','סופק']]
+  };
+  document.getElementById('olist').innerHTML = data[m].map(r => `<div class="hrow"><div><div class="hname">${r[0]}</div><div class="hdate">${r[1]}</div></div><span class="pill ${r[2]}">${r[3]}</span></div>`).join('');
+}
+</script>
+</body>
+</html>
