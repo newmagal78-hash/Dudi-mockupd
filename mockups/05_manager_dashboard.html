@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>דשבורד מנהל החברה</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 1.5rem; direction: rtl; }
+  .wrap { max-width: 480px; margin: 0 auto; }
+  .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .page-title { font-size: 16px; font-weight: 500; }
+  .date-label { font-size: 11px; color: #999; }
+  .stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 16px; }
+  .sc { background: #fff; border-radius: 8px; padding: 10px; text-align: center; border: 1px solid #eee; }
+  .sc-n { font-size: 20px; font-weight: 500; }
+  .sc-l { font-size: 10px; color: #999; margin-top: 2px; }
+  .tab-row { display: flex; border-bottom: 1px solid #eee; margin-bottom: 14px; }
+  .tab { padding: 8px 12px; font-size: 12px; cursor: pointer; color: #999; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .tab.active { color: #2563eb; border-bottom-color: #2563eb; font-weight: 500; }
+  .pill { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; white-space: nowrap; }
+  .pw { background: #fef3c7; color: #92400e; }
+  .pp { background: #dbeafe; color: #1e40af; }
+  .pd { background: #d1fae5; color: #065f46; }
+  .pr { background: #fee2e2; color: #991b1b; }
+  .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px; margin-bottom: 10px; cursor: pointer; }
+  .card:hover { border-color: #d1d5db; }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+  .card-name { font-size: 13px; font-weight: 500; }
+  .card-sub { font-size: 11px; color: #999; margin-top: 2px; }
+  .card-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #f9fafb; font-size: 12px; }
+  .card-row:last-child { border-bottom: none; }
+  .muted { color: #999; }
+  .filter-row { display: flex; gap: 5px; margin-bottom: 10px; flex-wrap: wrap; }
+  .fchip { font-size: 11px; padding: 3px 9px; border-radius: 20px; border: 1px solid #ddd; cursor: pointer; color: #666; background: transparent; white-space: nowrap; }
+  .fchip.active { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; font-weight: 500; }
+  .search-input { width: 100%; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 7px 10px; font-size: 12px; color: #111; font-family: inherit; direction: rtl; margin-bottom: 10px; }
+  .rest-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 8px; overflow: hidden; }
+  .rest-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; cursor: pointer; }
+  .rest-header:hover { background: #f9fafb; }
+  .rest-detail { padding: 0 12px 10px; border-top: 1px solid #f3f4f6; }
+  .mini-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin: 10px 0; }
+  .mini { background: #f9fafb; border-radius: 6px; padding: 7px; text-align: center; }
+  .mini-n { font-size: 14px; font-weight: 500; }
+  .mini-l { font-size: 10px; color: #999; }
+  .order-mini { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid #f3f4f6; font-size: 11px; }
+  .order-mini:last-child { border-bottom: none; }
+  .btn-sm { font-size: 11px; padding: 5px 10px; border-radius: 6px; border: 1px solid #ddd; background: transparent; color: #666; cursor: pointer; }
+  .btn-sm.blue { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; font-weight: 500; }
+  .debt { font-size: 13px; font-weight: 500; color: #dc2626; }
+  .paid-amt { font-size: 13px; font-weight: 500; color: #16a34a; }
+  .summary-total { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #fef2f2; border-radius: 8px; margin-top: 10px; }
+  .active-status { font-size: 10px; padding: 3px 8px; border-radius: 20px; background: #d1fae5; color: #065f46; font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><div class="page-title">דשבורד מנהל</div><div class="date-label">יום שישי, 17 באפריל 2026</div></div>
+    <span class="active-status">מערכת פעילה</span>
+  </div>
+  <div class="stats">
+    <div class="sc"><div class="sc-n" style="color:#d97706">7</div><div class="sc-l">ממתין לליקוט</div></div>
+    <div class="sc"><div class="sc-n" style="color:#2563eb">3</div><div class="sc-l">בליקוט</div></div>
+    <div class="sc"><div class="sc-n" style="color:#2563eb">2</div><div class="sc-l">בדרך ללקוח</div></div>
+    <div class="sc"><div class="sc-n" style="color:#16a34a">12</div><div class="sc-l">סופק היום</div></div>
+  </div>
+  <div class="tab-row">
+    <div class="tab active" id="t-o" onclick="sw('o')">הזמנות</div>
+    <div class="tab" id="t-r" onclick="sw('r')">מסעדות</div>
+    <div class="tab" id="t-c" onclick="sw('c')">גביה</div>
+    <div class="tab" id="t-t" onclick="sw('t')">צוות</div>
+  </div>
+  <div id="v-o">
+    <div class="filter-row">
+      <span class="fchip active" onclick="fo(this,'all')">הכל</span>
+      <span class="fchip" onclick="fo(this,'w')">ממתין לליקוט</span>
+      <span class="fchip" onclick="fo(this,'p')">בליקוט</span>
+      <span class="fchip" onclick="fo(this,'d')">בדרך ללקוח</span>
+      <span class="fchip" onclick="fo(this,'s')">סופק</span>
+    </div>
+    <div id="olist">
+      <div class="card" data-s="p"><div class="card-top"><div><div class="card-name">מסעדת הגינה</div><div class="card-sub">17.4 · 7 פריטים · עמית א'</div></div><span class="pill pp">בליקוט</span></div><div class="card-row"><span class="muted">שעת איסוף</span><span>08:00</span></div><div class="card-row"><span class="muted">סכום</span><span>₪ 380</span></div></div>
+      <div class="card" data-s="w"><div class="card-top"><div><div class="card-name">פיצריה רומא</div><div class="card-sub">17.4 · 11 פריטים</div></div><span class="pill pw">ממתין לליקוט</span></div><div class="card-row"><span class="muted">שעת איסוף</span><span>08:00</span></div><div class="card-row"><span class="muted">סכום</span><span>₪ 560</span></div></div>
+      <div class="card" data-s="d"><div class="card-top"><div><div class="card-name">סושי בר תל אביב</div><div class="card-sub">17.4 · 8 פריטים · יוסי כ'</div></div><span class="pill pp">בדרך ללקוח</span></div><div class="card-row"><span class="muted">שעת איסוף</span><span>09:30</span></div><div class="card-row"><span class="muted">סכום</span><span>₪ 290</span></div></div>
+      <div class="card" data-s="s"><div class="card-top"><div><div class="card-name">בית קפה לבנון</div><div class="card-sub">17.4 · 5 פריטים · יוסי כ'</div></div><span class="pill pd">סופק</span></div><div class="card-row"><span class="muted">סופק בשעה</span><span>07:42</span></div><div class="card-row"><span class="muted">סכום</span><span>₪ 210</span></div></div>
+    </div>
+  </div>
+  <div id="v-r" style="display:none">
+    <input class="search-input" placeholder="חפש מסעדה..." oninput="fr(this.value)">
+    <div id="rlist">
+      <div class="rest-card"><div class="rest-header" onclick="tr('r1')"><div><div class="card-name">מסעדת הגינה</div><div class="card-sub">תל אביב · פעיל</div></div><div style="display:flex;align-items:center;gap:8px"><span class="pill pp">בליקוט</span><span id="ar-r1" style="color:#999">▾</span></div></div><div id="r1" style="display:none" class="rest-detail"><div class="mini-row"><div class="mini"><div class="mini-n">24</div><div class="mini-l">הושלמו</div></div><div class="mini"><div class="mini-n">3</div><div class="mini-l">פעילות</div></div><div class="mini"><div class="mini-n" style="color:#dc2626">₪380</div><div class="mini-l">חוב פתוח</div></div></div><div class="order-mini"><span>17.4 · 7 פריטים</span><span class="pill pp">בליקוט</span></div><div class="order-mini"><span>15.4 · 12 פריטים</span><span class="pill pd">סופק</span></div><div style="display:flex;gap:6px;margin-top:8px"><button class="btn-sm blue">כל ההזמנות</button><button class="btn-sm">חשבוניות</button><button class="btn-sm">עריכה</button></div></div></div>
+      <div class="rest-card"><div class="rest-header" onclick="tr('r2')"><div><div class="card-name">פיצריה רומא</div><div class="card-sub">רמת גן · פעיל</div></div><div style="display:flex;align-items:center;gap:8px"><span class="pill pw">ממתין לליקוט</span><span id="ar-r2" style="color:#999">▾</span></div></div><div id="r2" style="display:none" class="rest-detail"><div class="mini-row"><div class="mini"><div class="mini-n">18</div><div class="mini-l">הושלמו</div></div><div class="mini"><div class="mini-n">1</div><div class="mini-l">פעילות</div></div><div class="mini"><div class="mini-n" style="color:#16a34a">₪0</div><div class="mini-l">חוב פתוח</div></div></div><div style="display:flex;gap:6px;margin-top:8px"><button class="btn-sm blue">כל ההזמנות</button><button class="btn-sm">חשבוניות</button></div></div></div>
+      <div class="rest-card"><div class="rest-header" onclick="tr('r3')"><div><div class="card-name">סושי בר תל אביב</div><div class="card-sub">תל אביב · פעיל</div></div><div style="display:flex;align-items:center;gap:8px"><span class="pill pp">בדרך ללקוח</span><span id="ar-r3" style="color:#999">▾</span></div></div><div id="r3" style="display:none" class="rest-detail"><div class="mini-row"><div class="mini"><div class="mini-n">31</div><div class="mini-l">הושלמו</div></div><div class="mini"><div class="mini-n">1</div><div class="mini-l">פעילות</div></div><div class="mini"><div class="mini-n" style="color:#dc2626">₪850</div><div class="mini-l">חוב פתוח</div></div></div><div style="display:flex;gap:6px;margin-top:8px"><button class="btn-sm blue">כל ההזמנות</button><button class="btn-sm" onclick="sw('c')">לגביה</button></div></div></div>
+    </div>
+  </div>
+  <div id="v-c" style="display:none">
+    <div class="filter-row">
+      <span class="fchip active" onclick="fc(this,'all')">הכל</span>
+      <span class="fchip" onclick="fc(this,'debt')">חוב פתוח</span>
+      <span class="fchip" onclick="fc(this,'paid')">שולם</span>
+    </div>
+    <div id="clist">
+      <div class="card" data-cf="debt"><div class="card-top"><div><div class="card-name">סושי בר תל אביב</div><div class="card-sub">3 חשבוניות פתוחות</div></div><span class="pill pr">חוב פתוח</span></div><div class="card-row"><span class="muted">סה"כ חוב</span><span class="debt">₪ 850</span></div><div class="card-row"><span class="muted">הזמנה אחרונה</span><span>17.4</span></div><div style="display:flex;gap:6px;margin-top:8px"><button class="btn-sm blue">שלח תזכורת</button><button class="btn-sm">סמן כשולם</button></div></div>
+      <div class="card" data-cf="debt"><div class="card-top"><div><div class="card-name">מסעדת הגינה</div><div class="card-sub">1 חשבונית פתוחה</div></div><span class="pill pr">חוב פתוח</span></div><div class="card-row"><span class="muted">סה"כ חוב</span><span class="debt">₪ 380</span></div><div class="card-row"><span class="muted">הזמנה אחרונה</span><span>17.4</span></div><div style="display:flex;gap:6px;margin-top:8px"><button class="btn-sm blue">שלח תזכורת</button><button class="btn-sm">סמן כשולם</button></div></div>
+      <div class="card" data-cf="paid"><div class="card-top"><div><div class="card-name">פיצריה רומא</div><div class="card-sub">מעודכן</div></div><span class="pill pd">שולם</span></div><div class="card-row"><span class="muted">תשלום אחרון</span><span class="paid-amt">₪ 1,240</span></div><div class="card-row"><span class="muted">תאריך</span><span>14.4</span></div></div>
+    </div>
+    <div class="summary-total"><span style="font-size:12px;font-weight:500">סה"כ חובות פתוחים</span><span class="debt" style="font-size:16px">₪ 1,230</span></div>
+  </div>
+  <div id="v-t" style="display:none">
+    <div class="card"><div class="card-top"><div><div class="card-name">עמית אברהם</div><div class="card-sub">מלקט + נהג · פעיל היום</div></div><span class="pill pp">בליקוט</span></div><div class="card-row"><span class="muted">הזמנות היום</span><span>4</span></div><div class="card-row"><span class="muted">סופק</span><span>2</span></div><div class="card-row"><span class="muted">מסעדות משויכות</span><span>12</span></div></div>
+    <div class="card"><div class="card-top"><div><div class="card-name">יוסי כהן</div><div class="card-sub">נהג · פעיל היום</div></div><span class="pill pp">בדרך ללקוח</span></div><div class="card-row"><span class="muted">הזמנות היום</span><span>6</span></div><div class="card-row"><span class="muted">סופק</span><span>5</span></div><div class="card-row"><span class="muted">מסעדות משויכות</span><span>8</span></div></div>
+    <div class="card"><div class="card-top"><div><div class="card-name">רינה לוי</div><div class="card-sub">מלקטת · לא פעילה היום</div></div><span class="pill" style="background:#f3f4f6;color:#999">לא פעיל</span></div><div class="card-row"><span class="muted">מסעדות משויכות</span><span>6</span></div><div style="margin-top:8px"><button class="btn-sm">נהל שיוך</button></div></div>
+  </div>
+</div>
+<script>
+function sw(t){['o','r','c','t'].forEach(n=>{document.getElementById('t-'+n).classList.toggle('active',n===t);document.getElementById('v-'+n).style.display=n===t?'block':'none';});}
+function tr(id){var el=document.getElementById(id),ar=document.getElementById('ar-'+id),open=el.style.display==='block';el.style.display=open?'none':'block';ar.textContent=open?'▾':'▴';}
+function fo(el,f){document.querySelectorAll('#v-o .fchip').forEach(c=>c.classList.remove('active'));el.classList.add('active');document.querySelectorAll('#olist .card').forEach(c=>{c.style.display=(f==='all'||c.dataset.s===f)?'block':'none';});}
+function fc(el,f){document.querySelectorAll('#v-c .fchip').forEach(c=>c.classList.remove('active'));el.classList.add('active');document.querySelectorAll('#clist .card').forEach(c=>{c.style.display=(f==='all'||c.dataset.cf===f)?'block':'none';});}
+function fr(val){document.querySelectorAll('#rlist .rest-card').forEach(c=>{c.style.display=c.querySelector('.card-name').textContent.includes(val)?'block':'none';});}
+</script>
+</body>
+</html>
