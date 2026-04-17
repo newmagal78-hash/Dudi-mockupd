@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>דשבורד מלקט ונהג</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 1.5rem; direction: rtl; }
+  .wrap { max-width: 440px; margin: 0 auto; }
+  .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; background: #dbeafe; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; color: #1d4ed8; flex-shrink: 0; }
+  .user-name { font-size: 14px; font-weight: 500; }
+  .user-role { font-size: 11px; color: #999; }
+  .role-badge { font-size: 10px; padding: 3px 8px; border-radius: 20px; background: #d1fae5; color: #065f46; font-weight: 500; }
+  .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 16px; }
+  .sc { background: #fff; border-radius: 8px; padding: 10px; text-align: center; border: 1px solid #eee; }
+  .sc-n { font-size: 20px; font-weight: 500; }
+  .sc-l { font-size: 11px; color: #999; margin-top: 2px; }
+  .tab-row { display: flex; border-bottom: 1px solid #eee; margin-bottom: 14px; }
+  .tab { padding: 8px 14px; font-size: 12px; cursor: pointer; color: #999; border-bottom: 2px solid transparent; }
+  .tab.active { color: #2563eb; border-bottom-color: #2563eb; font-weight: 500; }
+  .pill { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+  .pw { background: #fef3c7; color: #92400e; }
+  .pp { background: #dbeafe; color: #1e40af; }
+  .pd { background: #d1fae5; color: #065f46; }
+  .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px; margin-bottom: 10px; }
+  .card-name { font-size: 13px; font-weight: 500; }
+  .card-sub { font-size: 11px; color: #999; margin-top: 2px; }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .sec { font-size: 11px; font-weight: 500; color: #999; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px; }
+  .check-item { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid #f3f4f6; cursor: pointer; }
+  .check-box { width: 18px; height: 18px; border-radius: 4px; border: 1px solid #ddd; background: transparent; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+  .check-box.checked { background: #d1fae5; border-color: #6ee7b7; }
+  .check-label { font-size: 12px; flex: 1; }
+  .check-qty { font-size: 11px; color: #999; }
+  .progress-bar { height: 4px; background: #e5e7eb; border-radius: 2px; margin: 8px 0 4px; }
+  .progress-fill { height: 4px; background: #2563eb; border-radius: 2px; transition: width .3s; }
+  .btn-main { flex: 2; background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; border-radius: 8px; padding: 8px; font-size: 12px; font-weight: 500; text-align: center; cursor: pointer; }
+  .btn-main.green { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
+  .btn-sec { flex: 1; background: transparent; color: #666; border: 1px solid #ddd; border-radius: 8px; padding: 8px; font-size: 11px; text-align: center; cursor: pointer; }
+  .actions { display: flex; gap: 6px; }
+  .items-preview { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+  .item-tag { font-size: 11px; background: #f3f4f6; border-radius: 6px; padding: 3px 7px; color: #666; }
+  .item-tag.done { text-decoration: line-through; opacity: .5; }
+  .divider { height: 1px; background: #eee; margin: 12px 0; }
+  .empty { text-align: center; color: #bbb; font-size: 12px; padding: 24px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="avatar">עא</div>
+      <div><div class="user-name">עמית אברהם</div><div class="user-role">מלקט + נהג</div></div>
+    </div>
+    <span class="role-badge">פעיל היום</span>
+  </div>
+  <div class="stats">
+    <div class="sc"><div class="sc-n" style="color:#d97706">3</div><div class="sc-l">ממתין לליקוט</div></div>
+    <div class="sc"><div class="sc-n" style="color:#2563eb">1</div><div class="sc-l">בליקוט כרגע</div></div>
+    <div class="sc"><div class="sc-n" style="color:#16a34a">5</div><div class="sc-l">סופק היום</div></div>
+  </div>
+  <div class="tab-row">
+    <div class="tab active" id="tab-pick" onclick="sw('pick')">ליקוט</div>
+    <div class="tab" id="tab-deliver" onclick="sw('deliver')">משלוח</div>
+    <div class="tab" id="tab-done" onclick="sw('done')">הושלם</div>
+  </div>
+  <div id="view-pick">
+    <div class="sec">בליקוט כרגע</div>
+    <div class="card" id="active-card">
+      <div class="card-top"><div><div class="card-name">מסעדת הגינה</div><div class="card-sub">איסוף: 08:00 · מחר</div></div><span class="pill pp">בליקוט</span></div>
+      <div style="font-size:11px;color:#999;margin-bottom:4px">סמן פריטים שנאספו:</div>
+      <div id="checklist">
+        <div class="check-item" onclick="tick(this)"><div class="check-box"></div><span class="check-label">עגבניות שרי</span><span class="check-qty">× 4</span></div>
+        <div class="check-item" onclick="tick(this)"><div class="check-box"></div><span class="check-label">חסה איסברג</span><span class="check-qty">× 6</span></div>
+        <div class="check-item" onclick="tick(this)"><div class="check-box"></div><span class="check-label">גבינה צהובה</span><span class="check-qty">× 2</span></div>
+        <div class="check-item" onclick="tick(this)"><div class="check-box"></div><span class="check-label">שמנת חמוצה</span><span class="check-qty">× 3</span></div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+      <div style="font-size:11px;color:#999;margin-bottom:8px" id="counter">0 מתוך 4 פריטים</div>
+      <div class="actions">
+        <div class="btn-main green" id="finish-btn" style="opacity:.4;pointer-events:none" onclick="finishPick()">הזמנה לוקטה</div>
+        <div class="btn-sec">פריט חסר</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="sec">ממתין לליקוט</div>
+    <div class="card">
+      <div class="card-top"><div><div class="card-name">פיצריה רומא</div><div class="card-sub">איסוף: 08:00 · מחר</div></div><span class="pill pw">ממתין לליקוט</span></div>
+      <div class="items-preview"><span class="item-tag">מוצרלה × 4</span><span class="item-tag">עגבניות × 8</span><span class="item-tag">+3 נוספים</span></div>
+      <div class="actions"><div class="btn-main">התחל ליקוט</div><div class="btn-sec">פירוט</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div><div class="card-name">סושי בר תל אביב</div><div class="card-sub">איסוף: 09:30 · מחר</div></div><span class="pill pw">ממתין לליקוט</span></div>
+      <div class="items-preview"><span class="item-tag">אורז × 10</span><span class="item-tag">אבוקדו × 6</span><span class="item-tag">+5 נוספים</span></div>
+      <div class="actions"><div class="btn-main">התחל ליקוט</div><div class="btn-sec">פירוט</div></div>
+    </div>
+  </div>
+  <div id="view-deliver" style="display:none">
+    <div id="del-empty" class="empty">אין הזמנות מוכנות למשלוח.<br>יופיעו כאן לאחר סיום ליקוט.</div>
+    <div id="del-card" class="card" style="display:none">
+      <div class="card-top"><div><div class="card-name">מסעדת הגינה</div><div class="card-sub">רחוב הרצל 12, תל אביב</div></div><span class="pill pp">בדרך ללקוח</span></div>
+      <div style="font-size:11px;color:#999;margin-bottom:8px">תעודת משלוח #1042 · 4 פריטים</div>
+      <div class="actions"><div class="btn-main green">סופק</div><div class="btn-sec">ניווט (Waze)</div></div>
+    </div>
+  </div>
+  <div id="view-done" style="display:none">
+    <div class="card">
+      <div class="card-top"><div><div class="card-name">בית קפה לבנון</div><div class="card-sub">סופק 07:42</div></div><span class="pill pd">סופק</span></div>
+      <div class="items-preview"><span class="item-tag done">חלב × 6</span><span class="item-tag done">קפה × 2</span><span class="item-tag done">סוכר × 4</span></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div><div class="card-name">מסעדת הים</div><div class="card-sub">סופק 07:15</div></div><span class="pill pd">סופק</span></div>
+      <div class="items-preview"><span class="item-tag done">דגים × 5</span><span class="item-tag done">לימון × 10</span><span class="item-tag done">+4 נוספים</span></div>
+    </div>
+  </div>
+</div>
+<script>
+var checked=0,total=4;
+function tick(row){
+  var box=row.querySelector('.check-box'),label=row.querySelector('.check-label'),on=box.classList.contains('checked');
+  if(on){box.classList.remove('checked');box.innerHTML='';label.style.textDecoration='none';label.style.opacity='1';checked--;}
+  else{box.classList.add('checked');box.innerHTML='<svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';label.style.textDecoration='line-through';label.style.opacity='.5';checked++;}
+  document.getElementById('prog').style.width=Math.round(checked/total*100)+'%';
+  document.getElementById('counter').textContent=checked+' מתוך '+total+' פריטים';
+  var btn=document.getElementById('finish-btn');
+  btn.style.opacity=checked===total?'1':'.4';
+  btn.style.pointerEvents=checked===total?'auto':'none';
+}
+function finishPick(){
+  document.getElementById('active-card').style.display='none';
+  document.getElementById('del-empty').style.display='none';
+  document.getElementById('del-card').style.display='block';
+  sw('deliver');
+}
+function sw(t){
+  ['pick','deliver','done'].forEach(n=>{
+    document.getElementById('tab-'+n).classList.toggle('active',n===t);
+    document.getElementById('view-'+n).style.display=n===t?'block':'none';
+  });
+}
+</script>
+</body>
+</html>
