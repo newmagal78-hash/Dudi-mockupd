@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מערכת הזמנות חכמה — מוקאפים</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; direction: rtl; min-height: 100vh; }
+  .header { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 20px 32px; display: flex; justify-content: space-between; align-items: center; }
+  .header-title { font-size: 18px; font-weight: 600; color: #111; }
+  .header-sub { font-size: 13px; color: #999; margin-top: 3px; }
+  .status-badge { font-size: 11px; padding: 4px 12px; border-radius: 20px; background: #d1fae5; color: #065f46; font-weight: 500; }
+  .main { max-width: 860px; margin: 0 auto; padding: 32px 20px; }
+  .section-title { font-size: 13px; font-weight: 500; color: #999; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 14px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-bottom: 40px; }
+  .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; overflow: hidden; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s; display: block; }
+  .card:hover { border-color: #93c5fd; transform: translateY(-2px); }
+  .card-preview { height: 140px; display: flex; align-items: center; justify-content: center; font-size: 48px; }
+  .bg-teal { background: #e1f5ee; }
+  .bg-blue { background: #e6f1fb; }
+  .bg-purple { background: #eeedfe; }
+  .bg-coral { background: #faece7; }
+  .card-body { padding: 14px 16px; border-top: 1px solid #f3f4f6; }
+  .card-phase { font-size: 10px; color: #999; font-weight: 500; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 4px; }
+  .card-title { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 4px; }
+  .card-desc { font-size: 12px; color: #666; line-height: 1.5; }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-top: 1px solid #f9fafb; }
+  .card-tag { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+  .tag-core { background: #dbeafe; color: #1e40af; }
+  .tag-ops { background: #eeedfe; color: #4338ca; }
+  .tag-mgmt { background: #faeeda; color: #92400e; }
+  .open-btn { font-size: 11px; color: #2563eb; font-weight: 500; }
+  .divider { height: 1px; background: #e5e7eb; margin: 8px 0 32px; }
+  .docs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; margin-bottom: 40px; }
+  .doc-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px; text-decoration: none; color: inherit; display: flex; align-items: flex-start; gap: 10px; transition: border-color .15s; }
+  .doc-card:hover { border-color: #93c5fd; }
+  .doc-icon { font-size: 20px; flex-shrink: 0; }
+  .doc-name { font-size: 13px; font-weight: 500; color: #111; }
+  .doc-desc { font-size: 11px; color: #999; margin-top: 2px; }
+  .footer { text-align: center; font-size: 12px; color: #bbb; padding: 24px; border-top: 1px solid #eee; margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <div class="header-title">מערכת הזמנות חכמה לליקוט ומשלוח</div>
+    <div class="header-sub">אפיון ומוקאפים אינטראקטיביים · אפריל 2026</div>
+  </div>
+  <span class="status-badge">אפיון הושלם</span>
+</div>
+<div class="main">
+  <div class="section-title">מוקאפים אינטראקטיביים</div>
+  <div class="cards">
+    <a class="card" href="mockups/01_phases_overview.html" target="_blank">
+      <div class="card-preview bg-teal">🗺️</div>
+      <div class="card-body">
+        <div class="card-phase">סקירה כללית</div>
+        <div class="card-title">מפת שלבי הפיתוח</div>
+        <div class="card-desc">6 שלבים, כל שלב עומד בפני עצמו ונבנה על הקודם</div>
+      </div>
+      <div class="card-footer"><span class="card-tag tag-core">ליבה</span><span class="open-btn">פתח ←</span></div>
+    </a>
+    <a class="card" href="mockups/02_restaurant_screens.html" target="_blank">
+      <div class="card-preview bg-blue">📱</div>
+      <div class="card-body">
+        <div class="card-phase">שלב 2</div>
+        <div class="card-title">ממשק מסעדן</div>
+        <div class="card-desc">וואטסאפ אישור · ההזמנות שלי · מעקב הזמנה בזמן אמת</div>
+      </div>
+      <div class="card-footer"><span class="card-tag tag-core">ליבה</span><span class="open-btn">פתח ←</span></div>
+    </a>
+    <a class="card" href="mockups/03_invoices.html" target="_blank">
+      <div class="card-preview bg-blue">🧾</div>
+      <div class="card-body">
+        <div class="card-phase">שלב 2 — חשבוניות</div>
+        <div class="card-title">לשונית חשבוניות</div>
+        <div class="card-desc">לפי הזמנה · חודשי מאוחד · פירוט מחירים · הורדת PDF</div>
+      </div>
+      <div class="card-footer"><span class="card-tag tag-core">ליבה</span><span class="open-btn">פתח ←</span></div>
+    </a>
+    <a class="card" href="mockups/04_picker_driver_dashboard.html" target="_blank">
+      <div class="card-preview bg-purple">📦</div>
+      <div class="card-body">
+        <div class="card-phase">שלב 3–4</div>
+        <div class="card-title">דשבורד מלקט ונהג</div>
+        <div class="card-desc">צ'קליסט ליקוט · תעודת משלוח · ניווט · היסטוריה</div>
+      </div>
+      <div class="card-footer"><span class="card-tag tag-ops">תפעולי</span><span class="open-btn">פתח ←</span></div>
+    </a>
+    <a class="card" href="mockups/05_manager_dashboard.html" target="_blank">
+      <div class="card-preview bg-coral">📊</div>
+      <div class="card-body">
+        <div class="card-phase">שלב 5</div>
+        <div class="card-title">דשבורד מנהל החברה</div>
+        <div class="card-desc">הזמנות · מסעדות · גביה · צוות — כל הנתונים במקום אחד</div>
+      </div>
+      <div class="card-footer"><span class="card-tag tag-mgmt">ניהולי</span><span class="open-btn">פתח ←</span></div>
+    </a>
+  </div>
+  <div class="divider"></div>
+  <div class="section-title">מסמכי אפיון</div>
+  <div class="docs-grid">
+    <a class="doc-card" href="docs/PRD.md" target="_blank">
+      <span class="doc-icon">📋</span>
+      <div><div class="doc-name">PRD.md</div><div class="doc-desc">מסמך דרישות מוצר מלא</div></div>
+    </a>
+    <a class="doc-card" href="docs/STATUS.md" target="_blank">
+      <span class="doc-icon">📌</span>
+      <div><div class="doc-name">STATUS.md</div><div class="doc-desc">סטטוס פרויקט ומה הלאה</div></div>
+    </a>
+    <a class="doc-card" href="docs/STATUS_FLOW.md" target="_blank">
+      <span class="doc-icon">🔄</span>
+      <div><div class="doc-name">STATUS_FLOW.md</div><div class="doc-desc">מילון סטטוסים אחיד</div></div>
+    </a>
+  </div>
+</div>
+<div class="footer">מערכת הזמנות חכמה · אפיון ראשוני · אפריל 2026</div>
+</body>
+</html>
