@@ -1,1 +1,240 @@
+/*
+ * i18n.css
+ * Smart Order System — RTL/LTR layout layer
+ * Uses CSS Logical Properties throughout.
+ * Import AFTER your base stylesheet.
+ */
 
+/* ── Reset physical margin/padding to logical ─────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Buttons — no fixed width, flex-based so German/Dutch text can grow */
+button,
+.btn-g,
+.btn-o,
+.btn-main,
+.btn-sec,
+.btn-sm,
+.tab,
+.fchip {
+  width: auto;
+  min-width: 0;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* Action rows — wrap on overflow so long DE/NL labels don't clip */
+.actions,
+.btn-row,
+.oc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.actions .btn-main,
+.actions .btn-sec,
+.btn-row .btn-sm {
+  flex: 1 1 auto;
+  min-width: 80px;
+}
+
+/* ── Logical margin/padding replacements ──────────────────────────────────── */
+
+/* Cards inner padding */
+.card-body,
+.pbody,
+.rest-detail,
+.det-header {
+  padding-inline: 12px;
+}
+
+/* Filter chips gap */
+.filter-row,
+.filter-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-block-end: 10px;
+}
+
+/* Stat cards */
+.stats,
+.summary-bar,
+.mini-row,
+.stats-row {
+  display: grid;
+  gap: 8px;
+}
+
+/* Tab row border — logical */
+.tab-row {
+  display: flex;
+  border-block-end: 0.5px solid var(--c-border, #e5e7eb);
+  margin-block-end: 14px;
+  overflow-x: auto;
+}
+
+/* Tab active indicator — logical */
+.tab.active {
+  border-block-end: 2px solid #2563eb;
+}
+
+/* List rows */
+.hrow,
+.inv-row,
+.card-row,
+.order-mini,
+.collect-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 7px;
+  border-block-end: 0.5px solid var(--c-border, #e5e7eb);
+}
+
+/* Check items */
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-block: 5px;
+  border-block-end: 0.5px solid var(--c-border, #f3f4f6);
+}
+
+/* Check qty — push to inline-end */
+.check-qty {
+  margin-inline-start: auto;
+}
+
+/* Card top row */
+.card-top,
+.oc-top,
+.rest-header,
+.mc-header,
+.det-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* Avatar + name row */
+.user-info,
+.top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Progress bar — inherits block direction */
+.progress-bar {
+  block-size: 4px;
+  border-radius: 2px;
+  margin-block: 8px 4px;
+}
+
+.progress-fill {
+  block-size: 4px;
+  border-radius: 2px;
+}
+
+/* Driver info card */
+.driver-card {
+  margin-block-start: 8px;
+  padding-inline: 10px;
+  padding-block: 8px;
+}
+
+/* ── RTL-specific overrides ─────────────────────────────────────────────────── */
+
+[dir="rtl"] .open-btn::after  { content: none; }
+[dir="rtl"] .open-btn         { unicode-bidi: plaintext; }
+
+/* Flip the "open →" arrow for RTL */
+[dir="rtl"] [data-i18n="btn_open"]::after,
+[dir="rtl"] [data-i18n="open_btn"]::after { content: none; }
+
+/* Phase tag floats to logical inline-end */
+.phase-tag {
+  float: inline-end;
+  font-size: 11px;
+  opacity: .75;
+  margin-block-start: 2px;
+}
+
+/* ── Typography scaling for long languages ────────────────────────────────── */
+
+/*
+  German & Dutch strings can be 30–50% longer than Hebrew/English.
+  Use clamp() so text scales down gracefully instead of overflowing.
+*/
+.btn-g,
+.btn-o,
+.btn-main,
+.btn-sec,
+.btn-sm {
+  font-size: clamp(10px, 1.8vw, 13px);
+  padding-inline: clamp(6px, 1.5vw, 14px);
+  padding-block: 7px;
+}
+
+.tab {
+  font-size: clamp(10px, 1.6vw, 13px);
+  padding-inline: clamp(6px, 1.5vw, 14px);
+  padding-block: 8px;
+}
+
+.fchip {
+  font-size: clamp(10px, 1.4vw, 12px);
+  padding-inline: clamp(6px, 1.2vw, 10px);
+  padding-block: 3px;
+}
+
+/* Stats number — no scaling needed */
+.sc-n,
+.mini-n,
+.stat-n {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+/* Labels below stats — can be long in DE/NL */
+.sc-l,
+.mini-l,
+.stat-l {
+  font-size: clamp(9px, 1.3vw, 11px);
+  color: #6b7280;
+  margin-block-start: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Search input — logical width ────────────────────────────────────────── */
+.search-input {
+  inline-size: 100%;
+  margin-block-end: 10px;
+}
+
+/* ── Summary total bar ───────────────────────────────────────────────────── */
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  margin-block-start: 10px;
+}
+
+/* ── Page header (from translations.js buildPageHeader) ──────────────────── */
+.i18n-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 100;
+}
