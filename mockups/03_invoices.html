@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>לשונית חשבוניות — מסעדן</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 1.5rem; direction: rtl; }
+  .wrap { max-width: 420px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 16px; }
+  .tab-row { display: flex; border-bottom: 1px solid #eee; margin-bottom: 14px; }
+  .tab { padding: 8px 16px; font-size: 12px; cursor: pointer; color: #999; border-bottom: 2px solid transparent; }
+  .tab.active { color: #2563eb; border-bottom-color: #2563eb; font-weight: 500; }
+  .toggle-type { display: flex; background: #f3f4f6; border-radius: 8px; padding: 3px; margin-bottom: 12px; }
+  .tt { flex: 1; text-align: center; font-size: 11px; padding: 5px; border-radius: 6px; cursor: pointer; color: #666; }
+  .tt.active { background: #fff; color: #111; font-weight: 500; border: 1px solid #e5e7eb; }
+  .filter-row { display: flex; gap: 5px; margin-bottom: 10px; flex-wrap: wrap; }
+  .fchip { font-size: 11px; padding: 3px 9px; border-radius: 20px; border: 1px solid #ddd; cursor: pointer; color: #666; background: transparent; }
+  .fchip.active { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; font-weight: 500; }
+  .summary-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .sc { background: #f9fafb; border-radius: 8px; padding: 10px 12px; }
+  .sc-label { font-size: 11px; color: #999; margin-bottom: 3px; }
+  .sc-val { font-size: 18px; font-weight: 500; }
+  .inv-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f3f4f6; cursor: pointer; }
+  .inv-row:hover { background: #f9fafb; margin: 0 -8px; padding: 10px 8px; border-radius: 6px; }
+  .pill { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+  .paid { background: #d1fae5; color: #065f46; }
+  .pending { background: #fef3c7; color: #92400e; }
+  .detail { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px; margin: 6px 0 10px; display: none; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { text-align: right; color: #999; font-weight: 400; padding: 4px 0; border-bottom: 1px solid #eee; font-size: 11px; }
+  td { padding: 5px 0; border-bottom: 1px solid #f3f4f6; }
+  td:last-child { text-align: left; font-weight: 500; }
+  .total-row { display: flex; justify-content: space-between; margin-top: 8px; padding-top: 8px; border-top: 1px solid #e5e7eb; font-weight: 500; }
+  .btn-row { display: flex; gap: 6px; margin-top: 8px; }
+  .btn-sm { flex: 1; padding: 6px; font-size: 11px; border-radius: 7px; border: 1px solid #ddd; background: transparent; color: #666; cursor: pointer; }
+  .btn-sm.primary { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; font-weight: 500; }
+  .api-note { font-size: 11px; color: #bbb; text-align: center; margin-top: 8px; border-top: 1px solid #f3f4f6; padding-top: 6px; }
+  .monthly-card { background: #f9fafb; border-radius: 10px; padding: 12px; margin-bottom: 8px; border: 1px solid #eee; cursor: pointer; }
+  .mc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .mc-bar { height: 4px; background: #e5e7eb; border-radius: 2px; margin-top: 6px; }
+  .mc-fill { height: 4px; background: #2563eb; border-radius: 2px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="tab-row">
+    <div class="tab">הזמנות שלי</div>
+    <div class="tab active">חשבוניות</div>
+    <div class="tab">פרופיל</div>
+  </div>
+  <div class="toggle-type">
+    <div class="tt active" id="tt1" onclick="switchType('single')">לפי הזמנה</div>
+    <div class="tt" id="tt2" onclick="switchType('monthly')">חודשי מאוחד</div>
+  </div>
+  <div id="view-single">
+    <div class="filter-row">
+      <span class="fchip active" onclick="setMonth(this,'apr')">אפריל</span>
+      <span class="fchip" onclick="setMonth(this,'mar')">מרץ</span>
+      <span class="fchip" onclick="setMonth(this,'feb')">פברואר</span>
+      <span class="fchip" onclick="setMonth(this,'all')">הכל</span>
+    </div>
+    <div class="summary-bar">
+      <div class="sc"><div class="sc-label">סה"כ החודש</div><div class="sc-val" id="tot">₪ 1,240</div></div>
+      <div class="sc"><div class="sc-label">ממתין לתשלום</div><div class="sc-val" style="color:#d97706" id="pend">₪ 380</div></div>
+    </div>
+    <div id="inv-list">
+      <div class="inv-row" onclick="toggleDet('d1')">
+        <div><div style="font-size:13px;font-weight:500">17 באפריל</div><div style="font-size:11px;color:#999">חשבונית #1042</div></div>
+        <div style="text-align:left"><div style="font-size:13px;font-weight:500">₪ 380</div><span class="pill pending">ממתין</span></div>
+      </div>
+      <div id="d1" class="detail">
+        <div style="font-size:13px;font-weight:500">חשבונית #1042</div>
+        <div style="font-size:11px;color:#999;margin-bottom:10px">17.4.2026 · 4 פריטים</div>
+        <table>
+          <tr><th>פריט</th><th style="text-align:center">כמות</th><th style="text-align:center">מחיר</th><th style="text-align:left">סה"כ</th></tr>
+          <tr><td>עגבניות שרי</td><td style="text-align:center">4</td><td style="text-align:center">₪18</td><td>₪72</td></tr>
+          <tr><td>חסה איסברג</td><td style="text-align:center">6</td><td style="text-align:center">₪22</td><td>₪132</td></tr>
+          <tr><td>גבינה צהובה</td><td style="text-align:center">2</td><td style="text-align:center">₪45</td><td>₪90</td></tr>
+          <tr><td>שמנת חמוצה</td><td style="text-align:center">3</td><td style="text-align:center">₪28</td><td>₪84</td></tr>
+        </table>
+        <div class="total-row"><span>סה"כ לתשלום</span><span>₪ 380</span></div>
+        <div class="btn-row"><button class="btn-sm primary">הורד PDF</button><button class="btn-sm">פרטי תשלום</button></div>
+        <div class="api-note">מחירים מסונכרנים מתוכנת הנהלת החשבונות</div>
+      </div>
+      <div class="inv-row" onclick="toggleDet('d2')">
+        <div><div style="font-size:13px;font-weight:500">15 באפריל</div><div style="font-size:11px;color:#999">חשבונית #1038</div></div>
+        <div style="text-align:left"><div style="font-size:13px;font-weight:500">₪ 560</div><span class="pill paid">שולם</span></div>
+      </div>
+      <div id="d2" class="detail">
+        <div style="font-size:13px;font-weight:500">חשבונית #1038</div>
+        <div style="font-size:11px;color:#999;margin-bottom:10px">15.4.2026 · 4 פריטים</div>
+        <table>
+          <tr><th>פריט</th><th style="text-align:center">כמות</th><th style="text-align:center">מחיר</th><th style="text-align:left">סה"כ</th></tr>
+          <tr><td>עגבניות שרי</td><td style="text-align:center">8</td><td style="text-align:center">₪18</td><td>₪144</td></tr>
+          <tr><td>מלפפונים</td><td style="text-align:center">10</td><td style="text-align:center">₪12</td><td>₪120</td></tr>
+          <tr><td>פלפל אדום</td><td style="text-align:center">5</td><td style="text-align:center">₪15</td><td>₪75</td></tr>
+          <tr><td>שמן זית</td><td style="text-align:center">2</td><td style="text-align:center">₪95</td><td>₪190</td></tr>
+        </table>
+        <div class="total-row"><span>סה"כ ששולם</span><span>₪ 560</span></div>
+        <div class="btn-row"><button class="btn-sm primary">הורד PDF</button></div>
+        <div class="api-note">מחירים מסונכרנים מתוכנת הנהלת החשבונות</div>
+      </div>
+    </div>
+  </div>
+  <div id="view-monthly" style="display:none">
+    <div class="summary-bar">
+      <div class="sc"><div class="sc-label">סה"כ 2026</div><div class="sc-val">₪ 8,420</div></div>
+      <div class="sc"><div class="sc-label">ממתין סה"כ</div><div class="sc-val" style="color:#d97706">₪ 380</div></div>
+    </div>
+    <div class="monthly-card"><div class="mc-header"><span style="font-size:13px;font-weight:500">אפריל 2026</span><div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;font-weight:500">₪ 1,240</span><span class="pill pending">ממתין</span></div></div><div style="font-size:11px;color:#999">4 הזמנות · 33 פריטים</div><div class="mc-bar"><div class="mc-fill" style="width:60%"></div></div></div>
+    <div class="monthly-card"><div class="mc-header"><span style="font-size:13px;font-weight:500">מרץ 2026</span><div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;font-weight:500">₪ 3,680</span><span class="pill paid">שולם</span></div></div><div style="font-size:11px;color:#999">8 הזמנות · 86 פריטים</div><div class="mc-bar"><div class="mc-fill" style="width:100%"></div></div></div>
+    <div class="monthly-card"><div class="mc-header"><span style="font-size:13px;font-weight:500">פברואר 2026</span><div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;font-weight:500">₪ 2,180</span><span class="pill paid">שולם</span></div></div><div style="font-size:11px;color:#999">5 הזמנות · 52 פריטים</div><div class="mc-bar"><div class="mc-fill" style="width:59%"></div></div></div>
+  </div>
+</div>
+<script>
+function toggleDet(id) {
+  var el = document.getElementById(id);
+  var open = el.style.display === 'block';
+  document.querySelectorAll('.detail').forEach(d => d.style.display = 'none');
+  if (!open) el.style.display = 'block';
+}
+function switchType(t) {
+  document.getElementById('tt1').classList.toggle('active', t === 'single');
+  document.getElementById('tt2').classList.toggle('active', t === 'monthly');
+  document.getElementById('view-single').style.display = t === 'single' ? 'block' : 'none';
+  document.getElementById('view-monthly').style.display = t === 'monthly' ? 'block' : 'none';
+}
+function setMonth(el, m) {
+  document.querySelectorAll('.fchip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  const totals = { apr: ['₪ 1,240','₪ 380'], mar: ['₪ 3,680','₪ 0'], feb: ['₪ 2,180','₪ 0'], all: ['₪ 8,420','₪ 380'] };
+  document.getElementById('tot').textContent = totals[m][0];
+  document.getElementById('pend').textContent = totals[m][1];
+}
+</script>
+</body>
+</html>
