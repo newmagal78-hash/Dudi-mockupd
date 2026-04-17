@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מפת שלבים — מערכת הזמנות</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 2rem; direction: rtl; }
+  h2 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #666; margin-bottom: 24px; }
+  .phase { border-radius: 10px; padding: 16px 20px; margin-bottom: 12px; cursor: pointer; transition: opacity .15s; }
+  .phase:hover { opacity: .85; }
+  .phase-title { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+  .phase-sub { font-size: 12px; opacity: .75; }
+  .phase-tag { float: left; font-size: 11px; opacity: .75; margin-top: 2px; }
+  .arrow { text-align: center; color: #aaa; font-size: 18px; margin: 4px 0; }
+  .p1 { background: #e1f5ee; color: #0f6e56; }
+  .p2 { background: #e6f1fb; color: #185fa5; }
+  .p3 { background: #eeedfe; color: #534ab7; }
+  .p4 { background: #faeeda; color: #854f0b; }
+  .p5 { background: #faece7; color: #993c1d; }
+  .p6 { background: #eaf3de; color: #3b6d11; }
+  .legend { margin-top: 16px; background: #fff; border-radius: 10px; padding: 12px 16px; font-size: 12px; color: #666; text-align: center; border: 1px solid #eee; }
+</style>
+</head>
+<body>
+<h2>מפת שלבי פיתוח המערכת</h2>
+<p class="subtitle">6 שלבים · כל שלב עומד בפני עצמו · לחץ לפירוט</p>
+<div class="phase p1"><span class="phase-tag">בסיס</span><div class="phase-title">שלב 1 — בוט קולי וקליטת הזמנות</div><div class="phase-sub">מענה קולי חכם · זיהוי שפה · תמלול הזמנה · שמירה במערכת</div></div>
+<div class="arrow">↓</div>
+<div class="phase p2"><span class="phase-tag">פשוט לתפעול</span><div class="phase-title">שלב 2 — אזור מסעדן ואישור הזמנה</div><div class="phase-sub">הודעת וואטסאפ · אישור/עדכון הזמנה · ממשק פשוט למסעדן</div></div>
+<div class="arrow">↓</div>
+<div class="phase p3"><span class="phase-tag">תפעולי</span><div class="phase-title">שלב 3 — ניהול מלקטים ונהגים</div><div class="phase-sub">הרשמה ותפקידים · שיוך מסעדות · דשבורד ליקוט + משלוח</div></div>
+<div class="arrow">↓</div>
+<div class="phase p4"><span class="phase-tag">שקיפות</span><div class="phase-title">שלב 4 — מעקב סטטוס בזמן אמת</div><div class="phase-sub">התקבלה → ליקוט → בנסיעה → סופק · התראות לכל שחקן</div></div>
+<div class="arrow">↓</div>
+<div class="phase p5"><span class="phase-tag">ניהולי</span><div class="phase-title">שלב 5 — דשבורד מנהל החברה</div><div class="phase-sub">כל ההזמנות · כל המסעדות · סטטוס תשלום · ניהול גביה</div></div>
+<div class="arrow">↓</div>
+<div class="phase p6"><span class="phase-tag">אוטומציה</span><div class="phase-title">שלב 6 — הנהלת חשבונות אוטומטית</div><div class="phase-sub">API לחשבוניות · חשבונית אוטומטית עם אישור · סיכום חודשי</div></div>
+<div class="legend">שלבים 1–4 הם ליבת המערכת · שלבים 5–6 מרחיבים אותה · כל שלב נבנה על הקודם</div>
+</body>
+</html>
