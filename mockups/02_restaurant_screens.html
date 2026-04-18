@@ -44,4 +44,183 @@
 <body>
 <script src="translations.js"></script>
 <script>
-  document
+  document.addEventListener('DOMContentLoaded', function() {
+    buildPageHeader();
+  });
+  document.addEventListener('languageChanged', function(e) {
+    var lang = e.detail.lang;
+    var tr = translations[lang];
+    var months = ['month_apr','month_mar','month_feb'];
+    document.querySelectorAll('.month-chip').forEach(function(el, i) {
+      el.textContent = tr[months[i]] || el.textContent;
+    });
+    document.querySelectorAll('.filter-all-chip').forEach(function(el) {
+      el.textContent = tr.filter_all;
+    });
+  });
+</script>
+
+<p class="page-note">— <span data-i18n="personal_area">אזור אישי</span> —</p>
+
+<div class="phones">
+
+  <!-- WhatsApp -->
+  <div class="phone">
+    <div class="pbar">
+      <span class="app" data-i18n="whatsapp_auto">וואטסאפ אוטומטי</span>
+      <span class="sub">09:14</span>
+    </div>
+    <div class="pbody">
+      <div class="bubble in">
+        <div class="bt">
+          <span data-i18n="whatsapp_greeting">שלום! קיבלנו את הזמנתך</span> 17.4.
+          <br><span data-i18n="whatsapp_detail">להלן הפירוט:</span>
+        </div>
+        <div class="btime">09:14</div>
+      </div>
+      <div class="ocard">
+        <div class="sec" data-i18n="your_order">ההזמנה שלך</div>
+        <div class="orow"><span class="oname">עגבניות שרי</span><span class="oqty">× 4</span></div>
+        <div class="orow"><span class="oname">חסה איסברג</span><span class="oqty">× 6</span></div>
+        <div class="orow"><span class="oname">גבינה צהובה</span><span class="oqty">× 2</span></div>
+        <div class="orow"><span class="oname">שמנת חמוצה</span><span class="oqty">× 3</span></div>
+        <div class="divl"></div>
+        <div class="orow">
+          <span style="font-size:11px;color:#999" data-i18n="pickup_requested">איסוף מבוקש</span>
+          <span style="font-size:11px"><span data-i18n="tomorrow_at">מחר</span> 08:00</span>
+        </div>
+      </div>
+      <button class="btn-g" data-i18n="btn_confirm"
+        onclick="document.getElementById('c1').style.display='block';this.style.display='none'">
+        אשר הזמנה
+      </button>
+      <div id="c1" class="badge" data-i18n="confirmed_msg">אושר!</div>
+      <button class="btn-o" data-i18n="btn_edit"
+        onclick="var p=document.getElementById('ep');p.style.display=p.style.display==='none'?'block':'none'">
+        ערוך הזמנה
+      </button>
+      <div id="ep" style="display:none">
+        <textarea class="edit-area" rows="2"
+          data-i18n-placeholder="edit_placeholder"
+          placeholder="למשל: הסר גבינה..."></textarea>
+        <button class="btn-g" style="font-size:11px;padding:6px" data-i18n="btn_send_update"
+          onclick="document.getElementById('ep').style.display='none';document.getElementById('ec').style.display='block'">
+          שלח עדכון
+        </button>
+        <div style="text-align:center;font-size:11px;color:#999;margin-block-end:4px" data-i18n="or_separator">— או —</div>
+        <button class="btn-o" style="font-size:11px;padding:6px" data-i18n="btn_voice">הקלטה קולית</button>
+      </div>
+      <div id="ec" class="badge" data-i18n="change_received">השינוי התקבל!</div>
+    </div>
+  </div>
+
+  <!-- My Orders -->
+  <div class="phone">
+    <div class="pbar">
+      <span class="app" data-i18n="my_orders">ההזמנות שלי</span>
+      <span class="sub">מסעדת הגינה</span>
+    </div>
+    <div class="pbody">
+      <div class="slabel" data-i18n="personal_area">אזור אישי</div>
+      <div class="filter-row">
+        <span class="fchip active month-chip" onclick="filterM(this,'apr')">אפריל</span>
+        <span class="fchip month-chip" onclick="filterM(this,'mar')">מרץ</span>
+        <span class="fchip month-chip" onclick="filterM(this,'feb')">פברואר</span>
+        <span class="fchip filter-all-chip" onclick="filterM(this,'all')">הכל</span>
+      </div>
+      <div id="olist">
+        <div class="hrow"><div><div class="hname">17 באפריל</div><div class="hdate">7 <span data-i18n="items_label">פריטים</span></div></div><span class="pill pw" data-i18n="status_waiting">ממתין לליקוט</span></div>
+        <div class="hrow"><div><div class="hname">15 באפריל</div><div class="hdate">12 <span data-i18n="items_label">פריטים</span></div></div><span class="pill pp" data-i18n="status_picking">בליקוט</span></div>
+        <div class="hrow"><div><div class="hname">13 באפריל</div><div class="hdate">9 <span data-i18n="items_label">פריטים</span></div></div><span class="pill pd" data-i18n="status_delivered">סופק</span></div>
+        <div class="hrow"><div><div class="hname">10 באפריל</div><div class="hdate">5 <span data-i18n="items_label">פריטים</span></div></div><span class="pill pd" data-i18n="status_delivered">סופק</span></div>
+      </div>
+      <div class="divl"></div>
+      <div style="display:flex;gap:5px;margin-block-start:4px">
+        <button class="btn-o" style="flex:1" data-i18n="tab_invoices">חשבוניות</button>
+        <button class="btn-o" style="flex:1" data-i18n="btn_new_order">הזמנה חדשה</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Tracking -->
+  <div class="phone">
+    <div class="pbar">
+      <span class="app" data-i18n="track_order">מעקב הזמנה</span>
+      <span class="sub">17.4</span>
+    </div>
+    <div class="pbody">
+      <div class="slabel" data-i18n="realtime_status">סטטוס בזמן אמת</div>
+      <div style="margin-block-end:12px">
+        <div style="display:flex;align-items:flex-start;gap:8px;padding-block-end:10px">
+          <div style="display:flex;flex-direction:column;align-items:center">
+            <div style="width:14px;height:14px;border-radius:50%;background:#16a34a;flex-shrink:0"></div>
+            <div style="width:1.5px;height:26px;background:#ddd"></div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:500" data-i18n="received_confirmed">התקבלה ואושרה</div>
+            <div style="font-size:10px;color:#999">09:14</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;padding-block-end:10px">
+          <div style="display:flex;flex-direction:column;align-items:center">
+            <div style="width:14px;height:14px;border-radius:50%;background:#2563eb;flex-shrink:0"></div>
+            <div style="width:1.5px;height:26px;background:#ddd"></div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:500" data-i18n="status_picking">בליקוט</div>
+            <div style="font-size:10px;color:#999">עמית</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;padding-block-end:10px">
+          <div style="display:flex;flex-direction:column;align-items:center">
+            <div id="dot3" style="width:14px;height:14px;border-radius:50%;background:#ddd;flex-shrink:0"></div>
+            <div style="width:1.5px;height:26px;background:#ddd"></div>
+          </div>
+          <div id="s3">
+            <div style="font-size:12px;color:#999" data-i18n="status_delivery">בדרך אליך</div>
+            <div style="font-size:10px;color:#bbb" data-i18n="waiting_label">ממתין</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px">
+          <div style="width:14px;height:14px;border-radius:50%;background:#ddd;flex-shrink:0"></div>
+          <div>
+            <div style="font-size:12px;color:#999" data-i18n="status_delivered">סופק</div>
+            <div style="font-size:10px;color:#bbb" data-i18n="waiting_label">ממתין</div>
+          </div>
+        </div>
+      </div>
+      <div id="drv" class="driver-card">
+        <div style="font-size:12px;font-weight:500">יוסי כהן — <span data-i18n="driver_label">נהג</span></div>
+        <div style="font-size:11px;color:#2563eb;margin-block-start:2px">054-1234567</div>
+        <div style="font-size:10px;color:#666;margin-block-start:4px">
+          <span data-i18n="eta_label">צפי הגעה</span>: 35 <span data-i18n="minutes_label">דק'</span>
+        </div>
+      </div>
+      <button class="btn-o" style="font-size:11px" id="sbtn" data-i18n="sim_btn_delivery"
+        onclick="document.getElementById('dot3').style.background='#2563eb';document.getElementById('drv').style.display='block';this.style.display='none'">
+        סטטוס: בדרך אליך
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function filterM(el, m) {
+  document.querySelectorAll('.fchip').forEach(function(c) { c.classList.remove('active'); });
+  el.classList.add('active');
+  var lang = getLang();
+  var tr = translations[lang];
+  var data = {
+    apr: [['17',tr.month_apr,'7','pw','status_waiting'],['15',tr.month_apr,'12','pp','status_picking'],['13',tr.month_apr,'9','pd','status_delivered'],['10',tr.month_apr,'5','pd','status_delivered']],
+    mar: [['28',tr.month_mar,'11','pd','status_delivered'],['22',tr.month_mar,'8','pd','status_delivered'],['17',tr.month_mar,'14','pd','status_delivered']],
+    feb: [['25',tr.month_feb,'9','pd','status_delivered'],['18',tr.month_feb,'7','pd','status_delivered']],
+    all: [['17',tr.month_apr,'7','pw','status_waiting'],['15',tr.month_apr,'12','pp','status_picking'],['28',tr.month_mar,'11','pd','status_delivered'],['22',tr.month_mar,'8','pd','status_delivered'],['25',tr.month_feb,'9','pd','status_delivered']]
+  };
+  document.getElementById('olist').innerHTML = (data[m]||data.apr).map(function(r) {
+    return '<div class="hrow"><div><div class="hname">'+r[0]+' '+r[1]+'</div><div class="hdate">'+r[2]+' '+tr.items_label+'</div></div><span class="pill '+r[3]+'">'+tr[r[4]]+'</span></div>';
+  }).join('');
+}
+</script>
+</body>
+</html>
