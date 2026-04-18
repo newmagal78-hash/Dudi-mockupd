@@ -1,40 +1,178 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Order System — Invoices</title>
-    <link rel="stylesheet" href="i18n.css">
-    <style>
-        body { font-family: Arial, sans-serif; background: #fff; margin: 0; padding: 80px 20px 20px; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-block-end: 24px; }
-        h2 { font-size: 20px; font-weight: 500; margin: 0; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        th { background: #f9fafb; color: #666; font-weight: 500; text-align: start; padding: 12px; border-block-end: 1px solid #eee; }
-        td { padding: 12px; border-block-end: 1px solid #eee; color: #333; }
-        .status { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
-        .paid { background: #e1f5ee; color: #065f46; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Order System — Invoices</title>
+<link rel="stylesheet" href="i18n.css">
+<style>
+  body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; }
+  .wrap { max-width: 420px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 16px; margin-block: 16px; }
+  .tab-row { display: flex; border-block-end: 1px solid #eee; margin-block-end: 14px; }
+  .tab { padding: 8px 14px; font-size: 12px; cursor: pointer; color: #999; border-block-end: 2px solid transparent; }
+  .tab.active { color: #2563eb; border-block-end-color: #2563eb; font-weight: 500; }
+  .toggle-type { display: flex; background: #f3f4f6; border-radius: 8px; padding: 3px; margin-block-end: 12px; }
+  .tt { flex: 1; text-align: center; font-size: 11px; padding: 5px; border-radius: 6px; cursor: pointer; color: #666; }
+  .tt.active { background: #fff; color: #111; font-weight: 500; border: 1px solid #e5e7eb; }
+  .summary-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-block-end: 12px; }
+  .sc { background: #f9fafb; border-radius: 8px; padding: 10px 12px; }
+  .sc-label { font-size: 11px; color: #999; margin-block-end: 3px; }
+  .sc-val { font-size: 18px; font-weight: 500; }
+  .inv-row { display: flex; justify-content: space-between; align-items: center; padding-block: 10px; border-block-end: 1px solid #f3f4f6; cursor: pointer; }
+  .pill { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+  .paid    { background: #d1fae5; color: #065f46; }
+  .pending { background: #fef3c7; color: #92400e; }
+  .detail  { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px; margin-block: 6px 10px; display: none; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { text-align: start; color: #999; font-weight: 400; padding-block: 4px; border-block-end: 1px solid #eee; font-size: 11px; }
+  td { padding-block: 5px; border-block-end: 1px solid #f3f4f6; }
+  td:last-child { text-align: end; font-weight: 500; }
+  .total-row { display: flex; justify-content: space-between; margin-block-start: 8px; padding-block-start: 8px; border-block-start: 1px solid #e5e7eb; font-weight: 500; }
+  .btn-sm { flex: 1; padding: 6px; font-size: 11px; border-radius: 7px; border: 1px solid #ddd; background: transparent; color: #666; cursor: pointer; }
+  .btn-sm.primary { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; font-weight: 500; }
+  .api-note { font-size: 11px; color: #bbb; text-align: center; margin-block-start: 8px; border-block-start: 1px solid #f3f4f6; padding-block-start: 6px; }
+  .monthly-card { background: #f9fafb; border-radius: 10px; padding: 12px; margin-block-end: 8px; border: 1px solid #eee; cursor: pointer; }
+  .mc-bar  { block-size: 4px; background: #e5e7eb; border-radius: 2px; margin-block-start: 6px; }
+  .mc-fill { block-size: 4px; background: #2563eb; border-radius: 2px; }
+</style>
 </head>
 <body>
-<div class="header">
-    <h2 data-i18n="invoice_title">היסטוריית חשבוניות</h2>
-</div>
-<table>
-    <thead>
-        <tr>
-            <th data-i18n="th_date">תאריך</th>
-            <th data-i18n="th_order">מספר הזמנה</th>
-            <th data-i18n="th_amount">סכום</th>
-            <th data-i18n="th_status">סטטוס</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr><td>17/04/2026</td><td>#882</td><td>₪450.00</td><td><span class="status paid" data-i18n="stat_paid">שולם</span></td></tr>
-        <tr><td>15/04/2026</td><td>#879</td><td>₪1,200.00</td><td><span class="status paid" data-i18n="stat_paid">שולם</span></td></tr>
-        <tr><td>12/04/2026</td><td>#875</td><td>₪890.00</td><td><span class="status paid" data-i18n="stat_paid">שולם</span></td></tr>
-    </tbody>
-</table>
 <script src="translations.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    buildPageHeader();
+  });
+  document.addEventListener('languageChanged', function(e) {
+    var tr = translations[e.detail.lang];
+    document.getElementById('fc-apr').textContent = tr.month_apr;
+    document.getElementById('fc-mar').textContent = tr.month_mar;
+    document.getElementById('fc-feb').textContent = tr.month_feb;
+    document.getElementById('fc-all').textContent = tr.filter_all;
+    document.getElementById('mc-apr').textContent = tr.month_apr + ' 2026';
+    document.getElementById('mc-mar').textContent = tr.month_mar + ' 2026';
+    document.getElementById('mc-feb').textContent = tr.month_feb + ' 2026';
+  });
+</script>
+
+<div class="wrap">
+  <div class="tab-row">
+    <div class="tab" data-i18n="tab_orders_nav">הזמנות שלי</div>
+    <div class="tab active" data-i18n="tab_invoices">חשבוניות</div>
+    <div class="tab" data-i18n="tab_profile">פרופיל</div>
+  </div>
+  <div class="toggle-type">
+    <div class="tt active" id="tt1" onclick="switchType('single')" data-i18n="tab_by_order">לפי הזמנה</div>
+    <div class="tt" id="tt2" onclick="switchType('monthly')" data-i18n="tab_monthly">חודשי מאוחד</div>
+  </div>
+
+  <div id="view-single">
+    <div class="filter-row">
+      <span class="fchip active" onclick="setMonth(this,'apr')" id="fc-apr">אפריל</span>
+      <span class="fchip" onclick="setMonth(this,'mar')" id="fc-mar">מרץ</span>
+      <span class="fchip" onclick="setMonth(this,'feb')" id="fc-feb">פברואר</span>
+      <span class="fchip" onclick="setMonth(this,'all')" id="fc-all">הכל</span>
+    </div>
+    <div class="summary-bar">
+      <div class="sc"><div class="sc-label" data-i18n="monthly_total">סה"כ החודש</div><div class="sc-val" id="tot">₪ 1,240</div></div>
+      <div class="sc"><div class="sc-label" data-i18n="pending_payment">ממתין לתשלום</div><div class="sc-val" id="pend" style="color:#d97706">₪ 380</div></div>
+    </div>
+    <div id="inv-list">
+      <div class="inv-row" onclick="toggleDet('d1')">
+        <div><div style="font-size:13px;font-weight:500">17 באפריל</div><div style="font-size:11px;color:#999"><span data-i18n="invoice_label">חשבונית</span> #1042</div></div>
+        <div style="text-align:end"><div style="font-size:13px;font-weight:500">₪ 380</div><span class="pill pending" data-i18n="status_pending">ממתין</span></div>
+      </div>
+      <div id="d1" class="detail">
+        <div style="font-size:13px;font-weight:500"><span data-i18n="invoice_label">חשבונית</span> #1042</div>
+        <div style="font-size:11px;color:#999;margin-block-end:10px">17.4.2026</div>
+        <table>
+          <tr><th data-i18n="item_col">פריט</th><th data-i18n="qty_col">כמות</th><th data-i18n="price_col">מחיר</th><th data-i18n="total_col">סה"כ</th></tr>
+          <tr><td>עגבניות שרי</td><td>4</td><td>₪18</td><td>₪72</td></tr>
+          <tr><td>חסה איסברג</td><td>6</td><td>₪22</td><td>₪132</td></tr>
+          <tr><td>גבינה צהובה</td><td>2</td><td>₪45</td><td>₪90</td></tr>
+          <tr><td>שמנת חמוצה</td><td>3</td><td>₪28</td><td>₪84</td></tr>
+        </table>
+        <div class="total-row"><span data-i18n="total_to_pay">סה"כ לתשלום</span><span>₪ 380</span></div>
+        <div class="btn-row" style="display:flex;gap:6px;margin-block-start:8px">
+          <button class="btn-sm primary" data-i18n="btn_download_pdf">הורד PDF</button>
+          <button class="btn-sm" data-i18n="btn_payment_info">פרטי תשלום</button>
+        </div>
+        <div class="api-note" data-i18n="api_note">מחירים מסונכרנים מתוכנת הנהלת החשבונות</div>
+      </div>
+      <div class="inv-row" onclick="toggleDet('d2')">
+        <div><div style="font-size:13px;font-weight:500">15 באפריל</div><div style="font-size:11px;color:#999"><span data-i18n="invoice_label">חשבונית</span> #1038</div></div>
+        <div style="text-align:end"><div style="font-size:13px;font-weight:500">₪ 560</div><span class="pill paid" data-i18n="status_paid">שולם</span></div>
+      </div>
+      <div id="d2" class="detail">
+        <div style="font-size:13px;font-weight:500"><span data-i18n="invoice_label">חשבונית</span> #1038</div>
+        <div style="font-size:11px;color:#999;margin-block-end:10px">15.4.2026</div>
+        <table>
+          <tr><th data-i18n="item_col">פריט</th><th data-i18n="qty_col">כמות</th><th data-i18n="price_col">מחיר</th><th data-i18n="total_col">סה"כ</th></tr>
+          <tr><td>עגבניות שרי</td><td>8</td><td>₪18</td><td>₪144</td></tr>
+          <tr><td>מלפפונים</td><td>10</td><td>₪12</td><td>₪120</td></tr>
+          <tr><td>פלפל אדום</td><td>5</td><td>₪15</td><td>₪75</td></tr>
+          <tr><td>שמן זית</td><td>2</td><td>₪95</td><td>₪190</td></tr>
+        </table>
+        <div class="total-row"><span data-i18n="total_paid_label">סה"כ ששולם</span><span>₪ 560</span></div>
+        <div class="btn-row" style="display:flex;gap:6px;margin-block-start:8px">
+          <button class="btn-sm primary" data-i18n="btn_download_pdf">הורד PDF</button>
+        </div>
+        <div class="api-note" data-i18n="api_note">מחירים מסונכרנים מתוכנת הנהלת החשבונות</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="view-monthly" style="display:none">
+    <div class="summary-bar">
+      <div class="sc"><div class="sc-label" data-i18n="total_year">סה"כ 2026</div><div class="sc-val">₪ 8,420</div></div>
+      <div class="sc"><div class="sc-label" data-i18n="total_pending_all">ממתין סה"כ</div><div class="sc-val" style="color:#d97706">₪ 380</div></div>
+    </div>
+    <div class="monthly-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-block-end:4px">
+        <span style="font-size:13px;font-weight:500" id="mc-apr">אפריל 2026</span>
+        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;font-weight:500">₪ 1,240</span><span class="pill pending" data-i18n="status_pending">ממתין</span></div>
+      </div>
+      <div style="font-size:11px;color:#999">4 <span data-i18n="orders_label">הזמנות</span> · 33 <span data-i18n="items_label">פריטים</span></div>
+      <div class="mc-bar"><div class="mc-fill" style="width:60%"></div></div>
+    </div>
+    <div class="monthly-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-block-end:4px">
+        <span style="font-size:13px;font-weight:500" id="mc-mar">מרץ 2026</span>
+        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;font-weight:500">₪ 3,680</span><span class="pill paid" data-i18n="status_paid">שולם</span></div>
+      </div>
+      <div style="font-size:11px;color:#999">8 <span data-i18n="orders_label">הזמנות</span> · 86 <span data-i18n="items_label">פריטים</span></div>
+      <div class="mc-bar"><div class="mc-fill" style="width:100%"></div></div>
+    </div>
+    <div class="monthly-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-block-end:4px">
+        <span style="font-size:13px;font-weight:500" id="mc-feb">פברואר 2026</span>
+        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;font-weight:500">₪ 2,180</span><span class="pill paid" data-i18n="status_paid">שולם</span></div>
+      </div>
+      <div style="font-size:11px;color:#999">5 <span data-i18n="orders_label">הזמנות</span> · 52 <span data-i18n="items_label">פריטים</span></div>
+      <div class="mc-bar"><div class="mc-fill" style="width:59%"></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleDet(id) {
+  var el = document.getElementById(id);
+  var open = el.style.display === 'block';
+  document.querySelectorAll('.detail').forEach(function(d) { d.style.display = 'none'; });
+  if (!open) el.style.display = 'block';
+}
+function switchType(t) {
+  document.getElementById('tt1').classList.toggle('active', t === 'single');
+  document.getElementById('tt2').classList.toggle('active', t === 'monthly');
+  document.getElementById('view-single').style.display  = t === 'single'  ? 'block' : 'none';
+  document.getElementById('view-monthly').style.display = t === 'monthly' ? 'block' : 'none';
+}
+function setMonth(el, m) {
+  document.querySelectorAll('.fchip').forEach(function(c) { c.classList.remove('active'); });
+  el.classList.add('active');
+  var totals = { apr:['₪ 1,240','₪ 380'], mar:['₪ 3,680','₪ 0'], feb:['₪ 2,180','₪ 0'], all:['₪ 8,420','₪ 380'] };
+  document.getElementById('tot').textContent  = totals[m][0];
+  document.getElementById('pend').textContent = totals[m][1];
+}
+</script>
 </body>
 </html>
