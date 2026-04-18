@@ -1,43 +1,47 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Order System — Restaurant</title>
-    <link rel="stylesheet" href="i18n.css">
-    <style>
-        body { font-family: Arial, sans-serif; background: #f0f0f0; margin: 0; padding-top: 60px; }
-        .page-note { font-size: 12px; color: #666; text-align: center; padding: 10px; }
-        .phones { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; padding: 1rem; }
-        .phone { width: 210px; background: #fff; border: 1px solid #ddd; border-radius: 20px; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .pbar { background: #f7f7f7; padding: 10px 14px 8px; border-block-end: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .app { font-size: 13px; font-weight: 500; }
-        .pbody { padding: 12px; }
-        .wa-msg { background: #dcf8c6; padding: 8px; border-radius: 8px; font-size: 12px; }
-        .btn { width: 100%; background: #2563eb; color: #fff; border: none; padding: 8px; border-radius: 6px; font-size: 12px; cursor: pointer; margin-top: 10px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Order System — Restaurant</title>
+<link rel="stylesheet" href="i18n.css">
+<style>
+  body { font-family: Arial, sans-serif; background: #f0f0f0; margin: 0; }
+  .page-note { font-size: 12px; color: #666; text-align: center; padding: 10px; }
+  .phones { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; padding: 1rem; }
+  .phone { width: 210px; background: #fff; border: 1px solid #ddd; border-radius: 20px; overflow: hidden; flex-shrink: 0; }
+  .pbar { background: #f7f7f7; padding: 10px 14px 8px; border-block-end: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+  .app  { font-size: 13px; font-weight: 500; }
+  .sub  { font-size: 11px; color: #999; }
+  .pbody { padding: 12px; }
+  .slabel { font-size: 11px; color: #bbb; text-align: center; margin-block-end: 8px; }
+  .bubble    { border-radius: 12px 12px 4px 12px; padding: 8px 10px; margin-block-end: 7px; background: #dbeafe; }
+  .bubble.in { background: #f3f4f6; border-radius: 12px 12px 12px 4px; }
+  .bt   { font-size: 12px; line-height: 1.5; }
+  .btime{ font-size: 10px; color: #999; margin-block-start: 3px; }
+  .ocard{ border: 1px solid #eee; border-radius: 10px; padding: 10px; margin-block-end: 8px; background: #fafafa; }
+  .orow { display: flex; justify-content: space-between; margin-block-end: 5px; }
+  .oname{ font-size: 12px; }
+  .oqty { font-size: 12px; font-weight: 500; color: #2563eb; }
+  .divl { block-size: 1px; background: #eee; margin-block: 7px; }
+  .btn-g{ display: block; inline-size: 100%; background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; border-radius: 8px; padding: 8px; font-weight: 500; text-align: center; margin-block-end: 6px; cursor: pointer; }
+  .btn-o{ display: block; inline-size: 100%; background: transparent; color: #666; border: 1px solid #ddd; border-radius: 8px; padding: 8px; text-align: center; margin-block-end: 6px; cursor: pointer; }
+  .badge{ background: #d1fae5; color: #065f46; border-radius: 8px; padding: 6px 10px; font-size: 11px; text-align: center; margin-block-end: 8px; display: none; }
+  .edit-area { background: #f3f4f6; border: 1px solid #ddd; border-radius: 8px; padding: 7px; font-size: 12px; inline-size: 100%; resize: none; margin-block-end: 6px; font-family: inherit; }
+  .sec  { font-size: 11px; font-weight: 500; color: #999; margin-block-end: 6px; }
+  .fchip{ font-size: 11px; padding: 3px 9px; border-radius: 20px; border: 1px solid #ddd; cursor: pointer; color: #666; background: transparent; }
+  .fchip.active { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; font-weight: 500; }
+  .pill { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+  .pw   { background: #fef3c7; color: #92400e; }
+  .pp   { background: #dbeafe; color: #1e40af; }
+  .pd   { background: #d1fae5; color: #065f46; }
+  .hrow { display: flex; justify-content: space-between; align-items: center; padding-block: 7px; border-block-end: 1px solid #eee; }
+  .hname{ font-size: 12px; font-weight: 500; }
+  .hdate{ font-size: 11px; color: #999; }
+  .driver-card { background: #eff6ff; border-radius: 8px; padding: 8px 10px; margin-block-end: 8px; border: 1px solid #bfdbfe; display: none; }
+</style>
 </head>
 <body>
-<div class="page-note" data-i18n="restaurant_note">הדמיית מסכי קצה — מסעדן ולקוח</div>
-<div class="phones">
-    <div class="phone">
-        <div class="pbar"><div class="app">WhatsApp</div></div>
-        <div class="pbody">
-            <div class="wa-msg">
-                <strong data-i18n="wa_header">הזמנה חדשה #882</strong><br>
-                <span data-i18n="wa_body">שלום, התקבלה הזמנה חדשה. לאישור וצפייה בפריטים:</span><br>
-                <a href="#" style="color:#075e54; font-weight:bold;">sos.link/a8k3</a>
-            </div>
-        </div>
-    </div>
-    <div class="phone">
-        <div class="pbar"><div class="app" data-i18n="app_name">Smart Order</div></div>
-        <div class="pbody">
-            <h3 style="font-size:14px; margin:0;" data-i18n="order_summary">סיכום הזמנה</h3>
-            <button class="btn" data-i18n="btn_confirm">אשר הזמנה</button>
-        </div>
-    </div>
-</div>
 <script src="translations.js"></script>
-</body>
-</html>
+<script>
+  document
